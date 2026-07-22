@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+// 1. Cleaned up imports: removed native SafeAreaView entirely
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type OnboardingScreenProps = {
   navigation?: {
@@ -15,6 +15,7 @@ type OnboardingScreenProps = {
 };
 
 const Onboarding: React.FC<OnboardingScreenProps> = ({navigation}) => {
+  // 2. Extract edge offsets dynamically
   const insets = useSafeAreaInsets();
 
   const handleGetStarted = () => {
@@ -22,8 +23,18 @@ const Onboarding: React.FC<OnboardingScreenProps> = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={[styles.container, {paddingTop: insets.top, paddingBottom: insets.bottom}]}> 
+    // 3. Changed root to a regular View so background color spans 100% edge-to-edge smoothly
+    <View style={styles.rootBackground}>
+      {/* 4. Applied top/bottom insets directly onto the padding array */}
+      <View 
+        style={[
+          styles.container, 
+          { 
+            paddingTop: Math.max(insets.top, 20),      // Keeps a clean 20px padding buffer even if device has no notch
+            paddingBottom: Math.max(insets.bottom, 20) // Keeps a clean 20px padding buffer away from soft home keys
+          }
+        ]}
+      > 
         <View style={styles.logoWrap}>
           <View style={styles.logoCircle}>
             <Text style={styles.logoText}>mono</Text>
@@ -50,12 +61,13 @@ const Onboarding: React.FC<OnboardingScreenProps> = ({navigation}) => {
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
+  // 5. Renamed safeArea style property to rootBackground to reflect clean semantics
+  rootBackground: {
     flex: 1,
     backgroundColor: '#ffffff',
   },
@@ -63,7 +75,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
     paddingHorizontal: 24,
-    paddingVertical: 20,
+    // Removed static paddingVertical: 20 to prevent it from fighting with dynamic insets
     justifyContent: 'space-between',
   },
   logoWrap: {
