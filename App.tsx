@@ -2,16 +2,24 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {View,Text} from 'react-native';
-//import SplashScreen from './screens/splash';
+import SplashScreen from './screens/splash';
 //import OnboardingScreen from './screens/OnboardingScreen';
 
-//const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <View>
-      <Text>Welcome to the App!</Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Splash"
+        screenOptions={{ headerShown: false }}>
+        <Stack.Screen
+          name="Splash"
+          component={SplashScreen}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+
   );
 }
 
