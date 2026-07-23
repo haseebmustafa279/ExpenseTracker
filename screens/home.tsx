@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 type HomeScreenProps = {
   navigation: {
     navigate: (screen: 'AddIncome' | 'AddExpense' | 'Transactions' | 'Profile' | string) => void;
@@ -68,16 +68,41 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         </View>
 
         <View style={styles.balanceCard}>
-          <Text style={styles.cardTitle}>Total Balance</Text>
+          <View style={styles.balanceHeader}>
+            <Text style={styles.cardTitle}>Total Balance</Text>
+
+            <TouchableOpacity activeOpacity={0.7}>
+              <Ionicons
+                name="ellipsis-horizontal"
+                size={22}
+                color="#ffffff"
+              />
+            </TouchableOpacity>
+          </View>
+
           <Text style={styles.balanceAmount}>$12,450.75</Text>
 
           <View style={styles.balanceRow}>
             <View style={styles.balanceItem}>
-              <Text style={styles.balanceLabel}>Income</Text>
+              <View style={styles.labelRow}>
+                <Ionicons
+                  name="trending-up"
+                  size={16}
+                  color="#ffffff"
+                />
+                <Text style={styles.balanceLabel}> Income</Text>
+              </View>
               <Text style={[styles.balanceValue, styles.incomeText]}>$15,000</Text>
             </View>
             <View style={styles.balanceItem}>
-              <Text style={styles.balanceLabel}>Expense</Text>
+              <View style={styles.labelRow}>
+                <Ionicons
+                  name="trending-down"
+                  size={16}
+                  color="#ffffff"
+                />
+                <Text style={styles.balanceLabel}> Expense</Text>
+              </View>
               <Text style={[styles.balanceValue, styles.expenseText]}>$2,549.25</Text>
             </View>
           </View>
@@ -91,74 +116,74 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
         <View style={styles.body}>
           <View style={styles.quickActionsRow}>
-          <TouchableOpacity
-            style={[styles.actionButton, styles.incomeButton]}
-            onPress={() => navigation.navigate('AddIncome')}
-            activeOpacity={0.85}
-          >
-            <Text style={styles.actionText}>+ Add Income</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.actionButton, styles.expenseButton]}
-            onPress={() => navigation.navigate('AddExpense')}
-            activeOpacity={0.85}
-          >
-            <Text style={styles.actionText}>+ Add Expense</Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={[styles.actionButton, styles.incomeButton]}
+              onPress={() => navigation.navigate('AddIncome')}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.actionText}>+ Add Income</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.actionButton, styles.expenseButton]}
+              onPress={() => navigation.navigate('AddExpense')}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.actionText}>+ Add Expense</Text>
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Recent Transactions</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Transactions')}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.seeAllText}>See All</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Recent Transactions</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Transactions')}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.seeAllText}>See All</Text>
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.transactionList}>
-          {transactions.map((item) => (
-            <View key={item.id} style={styles.transactionRow}>
-              <View
-                style={[
-                  styles.transactionIcon,
-                  item.type === 'income'
-                    ? styles.transactionIconIncome
-                    : styles.transactionIconExpense,
-                ]}
-              >
-                <Text
+          <View style={styles.transactionList}>
+            {transactions.map((item) => (
+              <View key={item.id} style={styles.transactionRow}>
+                <View
                   style={[
-                    styles.transactionIconText,
+                    styles.transactionIcon,
                     item.type === 'income'
-                      ? styles.incomeText
-                      : styles.expenseText,
+                      ? styles.transactionIconIncome
+                      : styles.transactionIconExpense,
                   ]}
                 >
-                  {item.icon}
+                  <Text
+                    style={[
+                      styles.transactionIconText,
+                      item.type === 'income'
+                        ? styles.incomeText
+                        : styles.expenseText,
+                    ]}
+                  >
+                    {item.icon}
+                  </Text>
+                </View>
+
+                <View style={styles.transactionDetails}>
+                  <Text style={styles.transactionTitle}>{item.title}</Text>
+                  <Text style={styles.transactionDate}>{item.date}</Text>
+                </View>
+
+                <Text
+                  style={[
+                    styles.transactionAmount,
+                    item.type === 'income' ? styles.incomeText : styles.expenseText,
+                  ]}
+                >
+                  {item.amount}
                 </Text>
               </View>
-
-              <View style={styles.transactionDetails}>
-                <Text style={styles.transactionTitle}>{item.title}</Text>
-                <Text style={styles.transactionDate}>{item.date}</Text>
-              </View>
-
-              <Text
-                style={[
-                  styles.transactionAmount,
-                  item.type === 'income' ? styles.incomeText : styles.expenseText,
-                ]}
-              >
-                {item.amount}
-              </Text>
-            </View>
-          ))}
-        </View>
+            ))}
+          </View>
         </View>
 
-        
+
 
         <View style={styles.bottomSpacer} />
       </ScrollView>
@@ -171,14 +196,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
   },
-  
+  balanceHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+
+  labelRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   contentContainer: {
     paddingBottom: 40,
   },
 
-  body:{
-    paddingHorizontal:20,
-},
+  body: {
+    paddingHorizontal: 20,
+  },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
