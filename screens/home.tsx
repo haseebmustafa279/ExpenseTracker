@@ -8,6 +8,9 @@ type HomeScreenProps = {
   };
 };
 
+import {
+  Image
+} from 'react-native';
 const transactions = [
   {
     id: '1',
@@ -15,7 +18,7 @@ const transactions = [
     date: 'Apr 12, 2026',
     amount: '-$12.99',
     type: 'expense',
-    icon: 'N',
+    image: require('../assets/images/netflix.png'),
   },
   {
     id: '2',
@@ -23,7 +26,7 @@ const transactions = [
     date: 'Apr 10, 2026',
     amount: '-$45.20',
     type: 'expense',
-    icon: 'F',
+    image: require('../assets/images/food.png'),
   },
   {
     id: '3',
@@ -31,7 +34,7 @@ const transactions = [
     date: 'Apr 08, 2026',
     amount: '+$3,500.00',
     type: 'income',
-    icon: 'S',
+    image: require('../assets/images/salary.png'),
   },
   {
     id: '4',
@@ -39,7 +42,7 @@ const transactions = [
     date: 'Apr 06, 2026',
     amount: '-$120.75',
     type: 'expense',
-    icon: 'S',
+    image: require('../assets/images/shopping.png'),
   },
 ];
 
@@ -92,7 +95,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 />
                 <Text style={styles.balanceLabel}> Income</Text>
               </View>
-              <Text style={[styles.balanceValue, styles.incomeText]}>$15,000</Text>
+              <Text style={[styles.balanceValue, styles.balanceIncome]}>$15,000</Text>
             </View>
             <View style={styles.balanceItem}>
               <View style={styles.labelRow}>
@@ -103,7 +106,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 />
                 <Text style={styles.balanceLabel}> Expense</Text>
               </View>
-              <Text style={[styles.balanceValue, styles.expenseText]}>$2,549.25</Text>
+              <Text style={[styles.balanceValue, styles.balanceExpense]}>$2,549.25</Text>
             </View>
           </View>
         </View>
@@ -145,42 +148,40 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <View style={styles.transactionList}>
             {transactions.map((item) => (
               <View key={item.id} style={styles.transactionRow}>
-                <View
-                  style={[
-                    styles.transactionIcon,
-                    item.type === 'income'
-                      ? styles.transactionIconIncome
-                      : styles.transactionIconExpense,
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.transactionIconText,
-                      item.type === 'income'
-                        ? styles.incomeText
-                        : styles.expenseText,
-                    ]}
-                  >
-                    {item.icon}
-                  </Text>
+
+                <View style={styles.transactionIcon}>
+                  <Image
+                    source={item.image}
+                    style={styles.transactionImage}
+                    resizeMode="contain"
+                  />
                 </View>
 
                 <View style={styles.transactionDetails}>
-                  <Text style={styles.transactionTitle}>{item.title}</Text>
-                  <Text style={styles.transactionDate}>{item.date}</Text>
+                  <Text style={styles.transactionTitle}>
+                    {item.title}
+                  </Text>
+
+                  <Text style={styles.transactionDate}>
+                    {item.date}
+                  </Text>
                 </View>
 
                 <Text
                   style={[
                     styles.transactionAmount,
-                    item.type === 'income' ? styles.incomeText : styles.expenseText,
+                    item.type === 'income'
+                      ? styles.transactionIncome
+                      : styles.transactionExpense,
                   ]}
                 >
                   {item.amount}
                 </Text>
+
               </View>
             ))}
           </View>
+
         </View>
 
 
@@ -296,10 +297,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
   },
-  incomeText: {
+  balanceIncome: {
     color: 'white',
   },
-  expenseText: {
+  balanceExpense: {
     color: 'white',
   },
   quickActionsRow: {
@@ -367,25 +368,29 @@ const styles = StyleSheet.create({
     borderBottomColor: '#EFF6FF',
   },
   transactionIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#F8FAFC',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 14,
+    marginRight: 15,
   },
-  transactionIconIncome: {
-    backgroundColor: '#DCFCE7',
-  },
-  transactionIconExpense: {
-    backgroundColor: '#FEE2E2',
-  },
-  transactionIconText: {
-    fontSize: 18,
-    fontWeight: '700',
+  transactionImage: {
+    width: 30,
+    height: 30,
   },
   transactionDetails: {
     flex: 1,
+  },
+  transactionIncome: {
+    color: '#22C55E',
+    fontWeight: '700',
+  },
+
+  transactionExpense: {
+    color: '#EF4444',
+    fontWeight: '700',
   },
   transactionTitle: {
     fontSize: 16,
