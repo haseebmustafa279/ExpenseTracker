@@ -16,7 +16,7 @@ const spendingCards = [
     title: 'Starbucks',
     date: 'Jan 12, 2022',
     amount: '-$150.00',
-    image: require('../assets/images/logo.png'),
+    image: require('../assets/images/Starbucks.png'),
     selected: false,
   },
   {
@@ -52,7 +52,7 @@ export default function StatisticsScreen() {
           <Text style={styles.headerTitle}>Statistics</Text>
 
           <TouchableOpacity style={styles.iconButton} activeOpacity={0.85}>
-            <Ionicons name="share-social-outline" size={22} color="#0F766E" />
+            <Ionicons name="share-outline" size={22} color="#0F766E" />
           </TouchableOpacity>
         </View>
 
@@ -107,7 +107,7 @@ export default function StatisticsScreen() {
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Top Spending</Text>
           <TouchableOpacity style={styles.filterIconButton} activeOpacity={0.85}>
-            <Ionicons name="filter-outline" size={20} color="#0F766E" />
+            <Ionicons name="options-outline" size={20} color="#0F766E" />
           </TouchableOpacity>
         </View>
 
@@ -129,7 +129,10 @@ export default function StatisticsScreen() {
               </View>
             </View>
 
-            <Text style={[styles.transactionAmount, item.selected && styles.selectedText]}>
+            <Text style={[styles.transactionAmount, item.selected 
+              ?styles.selectedText :
+              styles.expenseAmount
+            ]}>
               {item.amount}
             </Text>
           </View>
@@ -146,6 +149,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
+  expenseAmount:{
+    color:"#EF4444",
+},
   contentContainer: {
     paddingHorizontal: 20,
     paddingTop: 10,
@@ -165,9 +171,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerTitle: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: '700',
-    color: '#111827',
+    color: '#0F766E',
   },
   selectorRow: {
     flexDirection: 'row',
@@ -332,7 +338,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 12,
+    marginBottom: 16,
   },
   sectionTitle: {
     fontSize: 18,
