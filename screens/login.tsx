@@ -14,7 +14,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 type LoginScreenProps = {
     navigation: {
-        navigate: (screen: 'Home' | 'Signup' | 'ForgotPassword' | string) => void;
+        navigate: (screen: 'MainTabs' | 'Signup' | 'ForgotPassword' | string) => void;
     };
 };
 
@@ -23,7 +23,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [secureEntry, setSecureEntry] = useState(true);
 
-    const handleLogin = () => navigation.navigate('Home');
+    const handleLogin = () => navigation.navigate('MainTabs');
     const handleSignup = () => navigation.navigate('Signup');
     const handleForgotPassword = () => navigation.navigate('ForgotPassword');
     const togglePasswordVisibility = () => setSecureEntry((prev) => !prev);

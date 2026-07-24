@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {View,Text} from 'react-native';
+import { View, Text } from 'react-native';
 import SplashScreen from './screens/splash';
 import Onboarding from './screens/Onboarding';
 import LoginScreen from './screens/login';
 import SignupScreen from './screens/signup';
 import ForgotPasswordScreen from './screens/ForgotPassword';
-import HomeScreen from './screens/home';
+import BottomTabs from './navigation/BottomTabs';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +17,12 @@ function App() {
       <Stack.Navigator
         initialRouteName="Splash"
         screenOptions={{ headerShown: false }}>
+
+        <Stack.Screen
+          name="MainTabs"
+          component={BottomTabs}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Splash"
           component={SplashScreen}
@@ -38,10 +44,7 @@ function App() {
           name="Signup"
           component={SignupScreen}
         />
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-        />
+
       </Stack.Navigator>
     </NavigationContainer>
 
