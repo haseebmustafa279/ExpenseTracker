@@ -9,14 +9,6 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Svg, {
-  Path,
-  Defs,
-  LinearGradient,
-  Stop,
-  Circle,
-  Line,
-} from 'react-native-svg';
 
 const spendingCards = [
   {
@@ -45,12 +37,6 @@ const spendingCards = [
   },
 ];
 
-const chartLine =
-  'M18 140 C38 140, 64 124, 94 112 S148 82, 178 92 S232 130, 260 108 S310 48, 334 72';
-
-const chartFill =
-  'M18 140 C38 140, 64 124, 94 112 S148 82, 178 92 S232 130, 260 108 S310 48, 334 72 L334 182 L18 182 Z';
-
 export default function StatisticsScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -70,111 +56,84 @@ export default function StatisticsScreen() {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.filterRow}>
-          <TouchableOpacity style={styles.filterButton} activeOpacity={0.85}>
-            <Text style={styles.filterText}>Day</Text>
+        <View style={styles.selectorRow}>
+          <TouchableOpacity style={styles.selectorButton} activeOpacity={0.85}>
+            <Text style={styles.selectorText}>Day</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.filterButton} activeOpacity={0.85}>
-            <Text style={styles.filterText}>Week</Text>
+          <TouchableOpacity style={styles.selectorButton} activeOpacity={0.85}>
+            <Text style={styles.selectorText}>Week</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.filterButton, styles.filterButtonActive]}
+            style={[styles.selectorButton, styles.selectorButtonActive]}
             activeOpacity={0.85}
           >
-            <Text style={[styles.filterText, styles.filterTextActive]}>Month</Text>
+            <Text style={[styles.selectorText, styles.selectorTextActive]}>Month</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.filterButton} activeOpacity={0.85}>
-            <Text style={styles.filterText}>Year</Text>
+          <TouchableOpacity style={styles.selectorButton} activeOpacity={0.85}>
+            <Text style={styles.selectorText}>Year</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.dropdownRow}>
+          <TouchableOpacity style={styles.dropdownButton} activeOpacity={0.85}>
+            <Text style={styles.dropdownText}>Expense</Text>
+            <Ionicons name="chevron-down" size={16} color="#0F766E" />
           </TouchableOpacity>
         </View>
 
         <View style={styles.chartCard}>
-          <View style={styles.chartHeaderRow}>
-            <Text style={styles.chartHeader}>Expense</Text>
-            <TouchableOpacity style={styles.dropdownButton} activeOpacity={0.85}>
-              <Text style={styles.dropdownText}>Expense</Text>
-              <Ionicons name="chevron-down" size={16} color="#0F766E" />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.chartContainer}>
-            <Svg width="100%" height="240" viewBox="0 0 352 200">
-              <Defs>
-                <LinearGradient id="chartArea" x1="0" y1="0" x2="0" y2="1">
-                  <Stop offset="0%" stopColor="#A7F3D0" stopOpacity="0.9" />
-                  <Stop offset="100%" stopColor="#ECFDF5" stopOpacity="0.2" />
-                </LinearGradient>
-              </Defs>
-
-              <Path d={chartFill} fill="url(#chartArea)" />
-              <Path
-                d={chartLine}
-                fill="none"
-                stroke="#0F766E"
-                strokeWidth={4}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-
-              <Line
-                x1="250"
-                y1="72"
-                x2="250"
-                y2="182"
-                stroke="#0F766E"
-                strokeDasharray="5 5"
-                strokeWidth={2}
-                opacity={0.85}
-              />
-
-              <Circle cx="250" cy="108" r="8" fill="#FFFFFF" stroke="#0F766E" strokeWidth={4} />
-            </Svg>
-
+          <View style={styles.graphFrame}>
+            <View style={styles.graphGlow} />
+            <View style={styles.graphWave} />
+            <View style={styles.graphWaveBottom} />
+            <View style={styles.cursorLine} />
+            <View style={styles.cursorMarker} />
             <View style={styles.tooltipBubble}>
               <Text style={styles.tooltipText}>$1,230</Text>
             </View>
+          </View>
 
-            <View style={styles.bottomLabelsRow}>
-              {['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'].map((label) => (
-                <Text key={label} style={styles.bottomLabel}>
-                  {label}
+          <View style={styles.monthRow}>
+            <Text style={styles.monthLabel}>Mar</Text>
+            <Text style={styles.monthLabel}>Apr</Text>
+            <Text style={styles.monthLabel}>May</Text>
+            <Text style={styles.monthLabel}>Jun</Text>
+            <Text style={styles.monthLabel}>Jul</Text>
+            <Text style={styles.monthLabel}>Aug</Text>
+            <Text style={styles.monthLabel}>Sep</Text>
+          </View>
+        </View>
+
+        <View style={styles.sectionHeaderRow}>
+          <Text style={styles.sectionTitle}>Top Spending</Text>
+          <TouchableOpacity style={styles.filterIconButton} activeOpacity={0.85}>
+            <Ionicons name="filter-outline" size={20} color="#0F766E" />
+          </TouchableOpacity>
+        </View>
+
+        {spendingCards.map((item) => (
+          <View
+            key={item.id}
+            style={[styles.transactionCard, item.selected && styles.selectedCard]}
+          >
+            <View style={styles.transactionLeft}>
+              <Image source={item.image} style={styles.transactionLogo} />
+
+              <View style={styles.transactionTextWrap}>
+                <Text style={[styles.transactionTitle, item.selected && styles.selectedText]}>
+                  {item.title}
                 </Text>
-              ))}
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.spendingSection}>
-          <View style={styles.spendingHeaderRow}>
-            <Text style={styles.spendingTitle}>Top Spending</Text>
-            <TouchableOpacity style={styles.filterIconButton} activeOpacity={0.85}>
-              <Ionicons name="filter-outline" size={20} color="#0F766E" />
-            </TouchableOpacity>
-          </View>
-
-          {spendingCards.map((item) => (
-            <View
-              key={item.id}
-              style={[styles.transactionCard, item.selected && styles.selectedCard]}
-            >
-              <View style={styles.transactionLeft}>
-                <Image source={item.image} style={styles.transactionLogo} />
-                <View style={styles.transactionTextWrap}>
-                  <Text style={[styles.transactionTitle, item.selected && styles.selectedText]}>
-                    {item.title}
-                  </Text>
-                  <Text style={[styles.transactionDate, item.selected && styles.selectedDate]}>
-                    {item.date}
-                  </Text>
-                </View>
+                <Text style={[styles.transactionDate, item.selected && styles.selectedDate]}>
+                  {item.date}
+                </Text>
               </View>
-
-              <Text style={[styles.transactionAmount, item.selected && styles.selectedText]}>
-                {item.amount}
-              </Text>
             </View>
-          ))}
-        </View>
+
+            <Text style={[styles.transactionAmount, item.selected && styles.selectedText]}>
+              {item.amount}
+            </Text>
+          </View>
+        ))}
 
         <View style={styles.bottomSpacer} />
       </ScrollView>
@@ -188,15 +147,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   contentContainer: {
-    paddingHorizontal: 18,
+    paddingHorizontal: 20,
     paddingTop: 10,
-    paddingBottom: 100,
+    paddingBottom: 96,
   },
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: 18,
   },
   iconButton: {
     width: 40,
@@ -210,91 +169,146 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#111827',
   },
-  filterRow: {
+  selectorRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 18,
     backgroundColor: '#F8FAFC',
-    borderRadius: 16,
+    borderRadius: 14,
     padding: 4,
   },
-  filterButton: {
+  selectorButton: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    borderRadius: 12,
+    borderRadius: 10,
     paddingVertical: 10,
     marginHorizontal: 2,
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.04,
     shadowRadius: 4,
     elevation: 1,
   },
-  filterButtonActive: {
+  selectorButtonActive: {
     backgroundColor: '#0F766E',
     shadowOpacity: 0,
     elevation: 0,
   },
-  filterText: {
+  selectorText: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#0F766E',
+    color: '#6B7280',
   },
-  filterTextActive: {
+  selectorTextActive: {
     color: '#FFFFFF',
   },
-  chartCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 24,
-    padding: 16,
-    marginBottom: 20,
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.08,
-    shadowRadius: 14,
-    elevation: 4,
-  },
-  chartHeaderRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 12,
-  },
-  chartHeader: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#111827',
+  dropdownRow: {
+    alignItems: 'flex-end',
+    marginBottom: 16,
   },
   dropdownButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    justifyContent: 'center',
+    width: 106,
+    height: 42,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 12,
   },
   dropdownText: {
     fontSize: 14,
     fontWeight: '700',
     color: '#0F766E',
+    marginRight: 4,
   },
-  chartContainer: {
+  chartCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 22,
+    padding: 14,
+    marginBottom: 20,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 4,
+  },
+  graphFrame: {
+    height: 220,
     borderRadius: 18,
-    backgroundColor: '#F9FDFB',
-    paddingVertical: 10,
-    paddingHorizontal: 6,
+    backgroundColor: '#F7FEFA',
     overflow: 'hidden',
+    position: 'relative',
+  },
+  graphGlow: {
+    position: 'absolute',
+    left: 12,
+    right: 12,
+    top: 18,
+    bottom: 20,
+    backgroundColor: '#ECFDF5',
+    borderRadius: 30,
+  },
+  graphWave: {
+    position: 'absolute',
+    left: -10,
+    right: -10,
+    top: 58,
+    height: 110,
+    borderTopLeftRadius: 100,
+    borderTopRightRadius: 100,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    backgroundColor: '#D1FAE5',
+    opacity: 0.98,
+    transform: [{ rotate: '6deg' }],
+  },
+  graphWaveBottom: {
+    position: 'absolute',
+    left: 16,
+    right: 16,
+    top: 98,
+    height: 90,
+    borderRadius: 70,
+    backgroundColor: '#A7F3D0',
+    opacity: 0.75,
+  },
+  cursorLine: {
+    position: 'absolute',
+    left: 202,
+    top: 70,
+    width: 0,
+    height: 95,
+    borderLeftWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: '#0F766E',
+  },
+  cursorMarker: {
+    position: 'absolute',
+    left: 192,
+    top: 94,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 4,
+    borderColor: '#0F766E',
   },
   tooltipBubble: {
     position: 'absolute',
-    top: 60,
-    right: 54,
+    right: 24,
+    top: 18,
     backgroundColor: '#0F766E',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 14,
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.16,
+    shadowOpacity: 0.15,
     shadowRadius: 8,
     elevation: 4,
   },
@@ -303,27 +317,24 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '700',
   },
-  bottomLabelsRow: {
+  monthRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    marginTop: -4,
+    paddingHorizontal: 6,
+    paddingTop: 12,
   },
-  bottomLabel: {
+  monthLabel: {
     fontSize: 12,
-    color: '#6B7280',
     fontWeight: '600',
+    color: '#6B7280',
   },
-  spendingSection: {
-    marginBottom: 20,
-  },
-  spendingHeaderRow: {
+  sectionHeaderRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 12,
   },
-  spendingTitle: {
+  sectionTitle: {
     fontSize: 18,
     fontWeight: '700',
     color: '#111827',
