@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -76,6 +77,7 @@ const transactionItems = [
 
 export default function BudgetScreen() {
   const [activeTab, setActiveTab] = useState<TabKey>('transactions');
+  const navigation = useNavigation<any>();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -104,21 +106,21 @@ export default function BudgetScreen() {
           </View>
 
           <View style={styles.actionsRow}>
-            <TouchableOpacity style={styles.actionItem} activeOpacity={0.85}>
+            <TouchableOpacity style={styles.actionItem} activeOpacity={0.85} onPress={() => navigation.navigate('ConnectWallet')}>
               <View style={styles.actionIconCircle}>
                 <Ionicons name="add" size={22} color="#0F766E" />
               </View>
               <Text style={styles.actionLabel}>Add</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.actionItem} activeOpacity={0.85}>
+            <TouchableOpacity style={styles.actionItem} activeOpacity={0.85} onPress={() => navigation.navigate('ConnectWallet')}>
               <View style={styles.actionIconCircle}>
                 <Ionicons name="grid-outline" size={20} color="#0F766E" />
               </View>
               <Text style={styles.actionLabel}>Pay</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.actionItem} activeOpacity={0.85}>
+            <TouchableOpacity style={styles.actionItem} activeOpacity={0.85} onPress={() => navigation.navigate('ConnectWallet')}>
               <View style={styles.actionIconCircle}>
                 <Ionicons name="paper-plane-outline" size={20} color="#0F766E" />
               </View>
@@ -212,14 +214,16 @@ const styles = StyleSheet.create({
     paddingBottom: 150,
   },
   headerSection: {
-    backgroundColor: '#0F766E',
+    backgroundColor: 'darkgreen',
     borderBottomLeftRadius: 35,
     borderBottomRightRadius: 35,
     paddingTop: 20,
-    paddingBottom: 150,
+    paddingBottom: 96,
     paddingHorizontal: 20,
     justifyContent: 'space-between',
   },
+
+  
   headerTopRow: {
     flexDirection: 'row',
     alignItems: 'center',

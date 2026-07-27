@@ -8,7 +8,8 @@ import LoginScreen from './screens/login';
 import SignupScreen from './screens/signup';
 import ForgotPasswordScreen from './screens/ForgotPassword';
 import BottomTabs from './navigation/BottomTabs';
-
+import ConnectWalletScreen from './screens/ConnectWalletScreen';
+import ConnectWalletAccountsScreen from './screens/ConnectWalletAccountsScreen';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -43,6 +44,15 @@ function App() {
         <Stack.Screen
           name="Signup"
           component={SignupScreen}
+        />
+
+        <Stack.Screen
+          name="ConnectWallet"
+          component={ConnectWalletScreen}
+        />
+        <Stack.Screen
+          name="ConnectWalletAccounts"
+          component={ConnectWalletAccountsScreen}
         />
 
       </Stack.Navigator>
