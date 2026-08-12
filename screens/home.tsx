@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 type HomeScreenProps = {
   navigation: {
-    navigate: (screen: 'AddIncome' | 'AddExpense' | 'Transactions' | 'Profile' | string) => void;
+    navigate: (screen: string, params?: any) => void;
   };
 };
 
@@ -47,6 +47,37 @@ const transactions = [
 ];
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  const handleTransactionPress = (item: (typeof transactions)[number]) => {
+    if (item.type === 'income') {
+      navigation.navigate('TransactionDetails', {
+        type: 'income',
+        image: item.image,
+        amount: item.amount,
+        date: item.date,
+        time: '10:00 AM',
+        status: 'Income',
+        source: 'Upwork Escrow',
+        earning: '$870.00',
+        fee: '-$20.00',
+        total: '$850.00',
+      });
+      return;
+    }
+
+    navigation.navigate('TransactionDetails', {
+      type: 'expense',
+      image: item.image,
+      amount: item.amount,
+      date: item.date,
+      time: '04:30 PM',
+      status: 'Expense',
+      source: 'Claire Jovalski',
+      spending: '$85.00',
+      fee: '-$0.99',
+      total: '$84.00',
+    });
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
@@ -147,8 +178,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
           <View style={styles.transactionList}>
             {transactions.map((item) => (
-              <View key={item.id} style={styles.transactionRow}>
-
+              <TouchableOpacity
+                key={item.id}
+                style={styles.transactionRow}
+                activeOpacity={0.8}
+                onPress={() => handleTransactionPress(item)}
+              >
                 <View style={styles.transactionIcon}>
                   <Image
                     source={item.image}
@@ -177,8 +212,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 >
                   {item.amount}
                 </Text>
-
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
 

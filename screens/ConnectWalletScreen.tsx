@@ -26,13 +26,13 @@ export default function ConnectWalletScreen() {
       >
         <View style={styles.headerSection}>
           <View style={styles.headerRow}>
-            <TouchableOpacity style={styles.headerIcon} activeOpacity={0.85}>
+            <TouchableOpacity style={styles.headerIcon} activeOpacity={0.85} onPress={() => navigation.goBack()}>
               <Ionicons name="chevron-back" size={24} color="#FFFFFF" />
             </TouchableOpacity>
 
             <Text style={styles.headerTitle}>Connect Wallet</Text>
 
-            <TouchableOpacity style={styles.headerIcon} activeOpacity={0.85}>
+            <TouchableOpacity style={styles.headerIcon} activeOpacity={0.85} onPress={() => navigation.navigate('Profile')}>
               <Ionicons name="notifications-outline" size={22} color="#FFFFFF" />
             </TouchableOpacity>
           </View>

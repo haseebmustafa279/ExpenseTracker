@@ -79,6 +79,37 @@ export default function BudgetScreen() {
   const [activeTab, setActiveTab] = useState<TabKey>('transactions');
   const navigation = useNavigation<any>();
 
+  const handleTransactionPress = (item: (typeof transactionItems)[number]) => {
+    if (item.type === 'income') {
+      navigation.navigate('TransactionDetails', {
+        type: 'income',
+        image: item.image,
+        amount: item.amount,
+        date: item.date,
+        time: '10:00 AM',
+        status: 'Income',
+        source: 'Upwork Escrow',
+        earning: '$870.00',
+        fee: '-$20.00',
+        total: '$850.00',
+      });
+      return;
+    }
+
+    navigation.navigate('TransactionDetails', {
+      type: 'expense',
+      image: item.image,
+      amount: item.amount,
+      date: item.date,
+      time: '04:30 PM',
+      status: 'Expense',
+      source: 'Claire Jovalski',
+      spending: '$85.00',
+      fee: '-$0.99',
+      total: '$84.00',
+    });
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
@@ -162,7 +193,12 @@ export default function BudgetScreen() {
           <View style={styles.transactionList}>
             {activeTab === 'transactions'
               ? transactionItems.map((item) => (
-                  <View key={item.id} style={styles.transactionRow}>
+                  <TouchableOpacity
+                    key={item.id}
+                    style={styles.transactionRow}
+                    activeOpacity={0.8}
+                    onPress={() => handleTransactionPress(item)}
+                  >
                     <View style={styles.transactionLeft}>
                       <Image source={item.image} style={styles.transactionImage} />
                       <View style={styles.transactionTextWrap}>
@@ -179,7 +215,7 @@ export default function BudgetScreen() {
                     >
                       {item.amount}
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                 ))
               : billItems.map((item) => (
                   <View key={item.id} style={styles.transactionRow}>
